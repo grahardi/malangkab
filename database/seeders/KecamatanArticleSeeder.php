@@ -69,6 +69,20 @@ class KecamatanArticleSeeder extends Seeder
                 ],
                 'image_credit' => 'Foto Candi Singosari — Wikimedia Commons, lisensi CC BY-SA 3.0.',
             ],
+            'Bantur' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Pura_Balekambang.png?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Pura_Balekambang.png?width=900',
+                ],
+                'image_credit' => 'Foto Pura Amerta Jati, Pantai Balekambang — Wikimedia Commons, lisensi CC BY-SA 3.0.',
+            ],
+            'Sumbermanjing Wetan' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Pulau_Sempu_(Sempu_Island).jpg?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Pulau_Sempu_(Sempu_Island).jpg?width=900',
+                ],
+                'image_credit' => 'Foto Pulau Sempu, Sendang Biru — Wikimedia Commons, oleh Fortraihan, lisensi CC BY-SA 4.0.',
+            ],
         ];
     }
 
