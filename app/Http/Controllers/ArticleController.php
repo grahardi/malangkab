@@ -28,7 +28,15 @@ class ArticleController extends Controller
             ->orderBy('title')
             ->get();
 
-        return view('home', compact('categories', 'latest', 'profileHighlight', 'kecamatanList'));
+        // 6 kecamatan tampil acak di beranda (kartu thumbnail, 3 baris x 2 kolom).
+        // inRandomOrder() membuat urutan berbeda setiap kali halaman dimuat ulang.
+        $kecamatanRandom = Article::published()
+            ->whereHas('category', fn ($q) => $q->where('slug', 'kecamatan'))
+            ->inRandomOrder()
+            ->limit(6)
+            ->get();
+
+        return view('home', compact('categories', 'latest', 'profileHighlight', 'kecamatanList', 'kecamatanRandom'));
     }
 
     public function category(string $slug): View

@@ -66,25 +66,32 @@
         </div>
     </section>
 
-    {{-- Indeks bernomor 33 kecamatan — penomoran relevan karena ini benar memang daftar administratif berurutan --}}
+    {{-- Kartu thumbnail 6 kecamatan acak (2 kolom x 3 baris). Berganti tiap halaman dimuat ulang. --}}
     <section class="bg-ijotebu2 py-16">
         <div class="max-w-6xl mx-auto px-5">
             <div class="flex items-end justify-between mb-8">
                 <div>
-                    <span class="font-mono text-xs uppercase tracking-widest text-emas">Indeks Wilayah</span>
-                    <h2 class="font-display text-2xl font-bold text-white mt-1">33 Kecamatan Kabupaten Malang</h2>
+                    <span class="font-mono text-xs uppercase tracking-widest text-emas">Jelajah Wilayah</span>
+                    <h2 class="font-display text-2xl font-bold text-white mt-1">Sekilas Kecamatan</h2>
+                    <p class="text-gray-300 text-sm mt-1">Kabupaten Malang punya 33 kecamatan — ini 6 di antaranya, tampil acak.</p>
                 </div>
-                <a href="{{ route('category.show', 'kecamatan') }}" class="text-emas text-sm font-semibold hover:underline hidden sm:block">Lihat semua →</a>
+                <a href="{{ route('category.show', 'kecamatan') }}" class="text-emas text-sm font-semibold hover:underline hidden sm:block whitespace-nowrap">Lihat semua 33 →</a>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                @foreach($kecamatanList as $i => $kec)
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                @foreach($kecamatanRandom as $kec)
                     <a href="{{ route('article.show', ['kecamatan', $kec]) }}"
-                       class="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-3 transition">
-                        <span class="font-mono text-emas text-xs">{{ str_pad($i+1, 2, '0', STR_PAD_LEFT) }}</span>
-                        <span class="text-white text-sm">{{ str_replace('Kecamatan ', '', $kec->title) }}</span>
+                       class="group flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition">
+                        <img src="{{ $kec->cover_image }}" alt="{{ $kec->title }}" class="w-24 h-20 md:w-28 md:h-24 object-cover rounded-lg flex-shrink-0">
+                        <div class="min-w-0">
+                            <h3 class="text-white font-display font-semibold group-hover:text-emas transition truncate">{{ $kec->title }}</h3>
+                            <p class="text-gray-400 text-xs mt-1 line-clamp-2">{{ $kec->excerpt }}</p>
+                        </div>
                     </a>
                 @endforeach
             </div>
+
+            <a href="{{ route('category.show', 'kecamatan') }}" class="mt-6 inline-block text-emas text-sm font-semibold hover:underline sm:hidden">Lihat semua 33 kecamatan →</a>
         </div>
     </section>
 @endsection

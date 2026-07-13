@@ -13,12 +13,19 @@ class KecamatanArticleSeeder extends Seeder
     {
         $category = Category::where('slug', 'kecamatan')->firstOrFail();
 
+        $realPhotos = $this->realPhotos();
+
         foreach ($this->data() as $item) {
             $slug = Str::slug('Kecamatan '.$item['nama']);
+            $real = $realPhotos[$item['nama']] ?? null;
 
             $body = "<p>Kecamatan {$item['nama']} merupakan salah satu dari 33 kecamatan di wilayah Kabupaten Malang, Jawa Timur. {$item['deskripsi']}</p>"
                 ."<p>Wilayah ini berada di kawasan {$item['wilayah']} Kabupaten Malang dengan potensi utama pada sektor {$item['potensi']}.</p>"
                 .'<p><em>Catatan: artikel ini merupakan draf awal profil kecamatan yang dapat dilengkapi lebih lanjut oleh admin dengan data resmi dari kecamatan setempat, seperti jumlah desa, luas wilayah, jumlah penduduk, dan potensi unggulan terbaru.</em></p>';
+
+            if ($real) {
+                $body .= "<p class=\"text-sm text-gray-500\">{$real['image_credit']}</p>";
+            }
 
             Article::updateOrCreate(
                 ['slug' => $slug],
@@ -27,20 +34,42 @@ class KecamatanArticleSeeder extends Seeder
                     'title' => 'Kecamatan '.$item['nama'],
                     'excerpt' => Str::limit(strip_tags($item['deskripsi']), 160),
                     'body' => $body,
-                    'cover_image' => "https://picsum.photos/seed/{$slug}/1200/700",
-                    'gallery' => [
+                    'cover_image' => $real['cover_image'] ?? "https://picsum.photos/seed/{$slug}/1200/700",
+                    'gallery' => $real['gallery'] ?? [
                         "https://picsum.photos/seed/{$slug}-1/900/600",
                         "https://picsum.photos/seed/{$slug}-2/900/600",
                     ],
                     'meta' => [
                         'wilayah' => $item['wilayah'],
                         'potensi' => $item['potensi'],
+                        'image_source' => $real ? 'wikimedia_commons' : 'placeholder',
                     ],
                     'status' => 'published',
                     'published_at' => now(),
                 ]
             );
         }
+    }
+
+    /**
+     * Beberapa kecamatan dengan landmark ikonik diberi foto asli dari Wikimedia Commons
+     * (berlisensi Creative Commons, bebas pakai dengan syarat atribusi). Sisanya masih
+     * memakai placeholder Lorem Picsum dan bisa diganti satu per satu dengan cara yang sama:
+     * cari file di commons.wikimedia.org, lalu pakai URL stabil:
+     * https://commons.wikimedia.org/wiki/Special:FilePath/Nama_File.jpg
+     * Jangan lupa cantumkan kredit (lihat kolom meta.image_credit) di halaman terkait bila dipakai.
+     */
+    private function realPhotos(): array
+    {
+        return [
+            'Singosari' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Singosari_B.JPG?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Singosari_B.JPG?width=900',
+                ],
+                'image_credit' => 'Foto Candi Singosari — Wikimedia Commons, lisensi CC BY-SA 3.0.',
+            ],
+        ];
     }
 
     private function data(): array
