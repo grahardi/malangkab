@@ -8,9 +8,10 @@
             <a href="{{ route('home') }}" class="hover:text-emas transition">Beranda</a>
             <a href="{{ route('category.show', 'profile') }}" class="hover:text-emas transition">Profil Daerah</a>
             <a href="{{ route('category.show', 'kecamatan') }}" class="hover:text-emas transition">33 Kecamatan</a>
+            <a href="{{ route('category.show', 'pariwisata') }}" class="hover:text-emas transition">Pariwisata</a>
         </nav>
-        <a href="{{ route('category.show', 'kecamatan') }}" class="hidden md:inline-block bg-emas text-ijotebu2 text-sm font-semibold px-4 py-2 rounded-full hover:brightness-110 transition">
-            Jelajahi Peta Kecamatan
+        <a href="{{ route('category.show', 'pariwisata') }}" class="hidden md:inline-block bg-emas text-ijotebu2 text-sm font-semibold px-4 py-2 rounded-full hover:brightness-110 transition">
+            Jelajahi Wisata
         </a>
     </div>
 </header>

@@ -36,12 +36,40 @@ class ArticleController extends Controller
             ->limit(6)
             ->get();
 
-        return view('home', compact('categories', 'latest', 'profileHighlight', 'kecamatanList', 'kecamatanRandom'));
+        // 6 destinasi Pariwisata tampil acak (dari SEMUA sub-kategori: Pantai, Air Terjun, dst),
+        // ditampilkan di ATAS modul kecamatan di beranda.
+        $pariwisataRootId = Category::where('slug', 'pariwisata')->value('id');
+        $pariwisataRandom = Article::published()
+            ->with('category')
+            ->whereHas('category', fn ($q) => $q->where('parent_id', $pariwisataRootId))
+            ->inRandomOrder()
+            ->limit(6)
+            ->get();
+
+        return view('home', compact('categories', 'latest', 'profileHighlight', 'kecamatanList', 'kecamatanRandom', 'pariwisataRandom'));
     }
 
     public function category(string $slug): View
     {
         $category = Category::where('slug', $slug)->firstOrFail();
+
+        // Kategori dengan sub-kategori (mis. Pariwisata → Pantai, Air Terjun, dst)
+        // ditampilkan sebagai halaman ringkasan per sub-kategori, bukan grid artikel biasa.
+        if ($category->children()->exists()) {
+            $childrenWithArticles = $category->children()
+                ->orderBy('order')
+                ->get()
+                ->map(function (Category $child) {
+                    $child->setRelation(
+                        'sampleArticles',
+                        $child->publishedArticles()->limit(4)->get()
+                    );
+
+                    return $child;
+                });
+
+            return view('articles.category-tree', compact('category', 'childrenWithArticles'));
+        }
 
         $articles = $category->publishedArticles()->paginate(12);
 
