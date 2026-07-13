@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('excerpt', 500)->nullable();
             $table->longText('body');
-            $table->string('cover_image')->nullable();
+            $table->text('cover_image')->nullable();
             // Galeri gambar tambahan, disimpan sebagai JSON array url
             $table->json('gallery')->nullable();
             // Data tambahan khusus kecamatan (opsional): luas, jumlah desa, dst.
