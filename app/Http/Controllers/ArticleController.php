@@ -53,7 +53,22 @@ class ArticleController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        // Kategori dengan sub-kategori (mis. Pariwisata → Pantai, Air Terjun, dst,
+        // Khusus "Tokoh": jangan tampilkan grid sub-kategori (Politik/Budayawan/dst),
+        // langsung tampilkan gabungan seluruh profil tokoh sebagai kartu + thumbnail,
+        // dipaginasi 12 per halaman.
+        if ($category->slug === 'tokoh') {
+            $childIds = $category->children()->pluck('id');
+
+            $articles = Article::published()
+                ->with('category')
+                ->whereIn('category_id', $childIds)
+                ->orderByDesc('published_at')
+                ->paginate(12);
+
+            return view('articles.index', compact('category', 'articles'));
+        }
+
+        // Kategori dengan sub-kategori lain (mis. Pariwisata → Pantai, Air Terjun, dst,
         // atau Pendidikan → SMP → 33 sekolah) ditampilkan sebagai grid kartu/box
         // sederhana, 3 kolom x 3 baris (9 per halaman) — supaya kategori dengan
         // banyak anak (mis. 33 sekolah) tetap ringkas dan bisa dipaginasi.

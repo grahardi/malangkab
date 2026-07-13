@@ -48,6 +48,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // ── Route Publik Situs ──────────────────────────────────────────────────
+// sitemap.xml HARUS di atas catch-all {category}, karena {category} adalah
+// wildcard 1-segmen yang juga bisa "menelan" /sitemap.xml kalau didaftarkan
+// duluan (persis kasus /admin/login yang pernah 404 sebelumnya).
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 // Catch-all {category} dan {category}/{article} HARUS tetap paling bawah.
 Route::get('/', [ArticleController::class, 'home'])->name('home');
 Route::get('/{category}', [ArticleController::class, 'category'])->name('category.show');
