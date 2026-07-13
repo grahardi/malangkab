@@ -12,10 +12,26 @@
                     <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->pathLabel() }}</option>
                 @endforeach
             </select>
+            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="">Semua Status</option>
+                <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
+            </select>
             <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari judul..." class="form-control form-control-sm">
             <button class="btn btn-sm btn-outline-secondary">Cari</button>
         </form>
-        <a href="{{ route('admin.articles.create') }}" class="btn btn-malang btn-sm">+ Artikel Baru</a>
+        <div class="d-flex gap-2">
+            <form action="{{ route('admin.articles.publish-drafts') }}" method="POST"
+                  onsubmit="return confirm('Publish semua artikel berstatus Draft sesuai filter yang sedang aktif (kategori/pencarian)?')">
+                @csrf
+                <input type="hidden" name="category" value="{{ request('category') }}">
+                <input type="hidden" name="q" value="{{ request('q') }}">
+                <button class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-check2-circle"></i> Publish Semua Draft (sesuai filter)
+                </button>
+            </form>
+            <a href="{{ route('admin.articles.create') }}" class="btn btn-malang btn-sm">+ Artikel Baru</a>
+        </div>
     </div>
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
@@ -48,6 +64,6 @@
             </tbody>
         </table>
     </div>
-    <div class="card-footer">{{ $articles->links() }}</div>
+    <div class="card-footer">{{ $articles->links('pagination::bootstrap-five') }}</div>
 </div>
 @endsection

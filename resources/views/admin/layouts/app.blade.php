@@ -17,6 +17,10 @@
         .btn-malang { background:#C98A2C; border-color:#C98A2C; color:#23392A; font-weight:600; }
         .btn-malang:hover { background:#b87c22; color:#23392A; }
         .badge-tree { font-size: .7rem; }
+        /* Laravel default pagination pakai ikon SVG bawaan Tailwind yang terlalu besar
+           di konteks Bootstrap/AdminLTE — batasi ukurannya di sini. */
+        .pagination svg { width: 1rem; height: 1rem; }
+        .pagination .page-link { display: flex; align-items: center; }
     </style>
     @stack('head')
 </head>

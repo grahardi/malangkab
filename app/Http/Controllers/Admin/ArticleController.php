@@ -19,6 +19,7 @@ class ArticleController extends Controller
     {
         $articles = Article::with('category')
             ->when($request->filled('category'), fn ($q) => $q->where('category_id', $request->integer('category')))
+            ->when($request->filled('status'), fn ($q) => $q->where('status', $request->string('status')))
             ->when($request->filled('q'), fn ($q) => $q->where('title', 'like', '%'.$request->string('q').'%'))
             ->latest()
             ->paginate(20)
@@ -113,6 +114,22 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect()->route('admin.articles.index')->with('status', 'Artikel berhasil dihapus.');
+    }
+
+    /**
+     * Publish massal semua artikel berstatus draft, mengikuti filter kategori/pencarian
+     * yang sedang aktif di halaman (supaya bisa dibatasi per kategori, mis. hanya
+     * "Wisata Alam", bukan semua draft sekaligus kalau tidak diinginkan).
+     */
+    public function publishDrafts(Request $request): RedirectResponse
+    {
+        $count = Article::where('status', 'draft')
+            ->when($request->filled('category'), fn ($q) => $q->where('category_id', $request->integer('category')))
+            ->when($request->filled('q'), fn ($q) => $q->where('title', 'like', '%'.$request->string('q').'%'))
+            ->update(['status' => 'published', 'published_at' => now()]);
+
+        return redirect()->route('admin.articles.index', $request->only('category', 'q'))
+            ->with('status', "{$count} artikel draft berhasil di-publish.");
     }
 
     /**
