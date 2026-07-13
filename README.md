@@ -107,6 +107,10 @@ Tiap sekolah adalah **kategori tersendiri** (bukan artikel tunggal), dengan 4 ar
 4. Lengkapi Statistik dari [dapo.kemdikbud.go.id](https://dapo.kemdikbud.go.id) (cari berdasarkan NPSN), lengkapi Profil/Kontak dari konfirmasi langsung ke sekolah, tambahkan galeri kalau sekolah menyediakan foto resmi.
 5. Publish satu-satu lewat **Admin → Manajemen Artikel**, atau pakai tombol "Publish Semua Draft" per kategori kalau sudah yakin datanya benar.
 
+### Tampilan kategori berisi sub-kategori (grid kartu, 3×3)
+
+Kategori yang punya sub-kategori (Pariwisata → 5 sub, Pendidikan → 5 jenjang, SMP → 33 sekolah, dst) ditampilkan sebagai **grid kartu/box sederhana**, maksimal 9 per halaman (3 kolom × 3 baris), dengan paginasi bawaan Laravel. Ini menggantikan tampilan tree-dengan-preview-artikel sebelumnya, supaya kategori dengan banyak anak (seperti 33 sekolah SMP) tetap ringkas dan tidak jadi satu halaman yang sangat panjang. View-nya ada di `resources/views/articles/category-grid.blade.php`.
+
 ## Kartu kecamatan acak di beranda
 
 Di beranda, bagian "Sekilas Kecamatan" menampilkan **6 kartu thumbnail kecamatan secara acak** (2 kolom × 3 baris), berbeda setiap kali halaman dimuat ulang — diambil lewat `Article::inRandomOrder()->limit(6)` di `ArticleController@home`. Daftar lengkap 33 kecamatan tetap bisa diakses di halaman `/kecamatan`.

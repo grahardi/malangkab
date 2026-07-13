@@ -53,22 +53,14 @@ class ArticleController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        // Kategori dengan sub-kategori (mis. Pariwisata → Pantai, Air Terjun, dst)
-        // ditampilkan sebagai halaman ringkasan per sub-kategori, bukan grid artikel biasa.
+        // Kategori dengan sub-kategori (mis. Pariwisata → Pantai, Air Terjun, dst,
+        // atau Pendidikan → SMP → 33 sekolah) ditampilkan sebagai grid kartu/box
+        // sederhana, 3 kolom x 3 baris (9 per halaman) — supaya kategori dengan
+        // banyak anak (mis. 33 sekolah) tetap ringkas dan bisa dipaginasi.
         if ($category->children()->exists()) {
-            $childrenWithArticles = $category->children()
-                ->orderBy('order')
-                ->get()
-                ->map(function (Category $child) {
-                    $child->setRelation(
-                        'sampleArticles',
-                        $child->publishedArticles()->limit(4)->get()
-                    );
+            $children = $category->children()->orderBy('order')->paginate(9);
 
-                    return $child;
-                });
-
-            return view('articles.category-tree', compact('category', 'childrenWithArticles'));
+            return view('articles.category-grid', compact('category', 'children'));
         }
 
         $articles = $category->publishedArticles()->paginate(12);
