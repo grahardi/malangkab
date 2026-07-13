@@ -116,13 +116,7 @@ Berbeda dari Pariwisata/Pendidikan, mengunjungi `/tokoh` **langsung menampilkan 
 
 ## Sitemap XML untuk Google Search Console
 
-Tersedia di `/sitemap.xml`, dua opsi:
-
-1. **Dinamis (default, sudah aktif)** — `SitemapController` menghasilkan XML dari data terbaru di database (kategori + semua artikel published) setiap kali diakses. Tidak perlu di-generate ulang manual; otomatis mengikuti artikel baru/terhapus.
-2. **Statis (opsional)** — jalankan `php artisan sitemap:generate` untuk menulis file fisik ke `public/sitemap.xml`. Karena Nginx (lewat `try_files`) akan menemukan file fisik ini lebih dulu sebelum diteruskan ke Laravel, versi statis ini otomatis "menang" dan lebih cepat disajikan. Cocok kalau situs sudah besar dan ingin mengurangi beban query saat crawler mengakses sitemap. Jadwalkan lewat cron (mis. harian) kalau pakai opsi ini, supaya tetap up-to-date:
-   ```bash
-   php artisan sitemap:generate
-   ```
+Tersedia di `/sitemap.xml` — **dinamis**, dibangkitkan langsung dari data terbaru di database (halaman beranda + semua kategori + semua artikel published) setiap kali diakses lewat `SitemapController`. Tidak perlu digenerate ulang manual; otomatis mengikuti artikel baru/terhapus/berubah status.
 
 **Submit ke Google Search Console:**
 1. Buka [Google Search Console](https://search.google.com/search-console), pilih properti `malangkab.com`.
