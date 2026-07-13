@@ -44,6 +44,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('articles/scrape', [AdminArticleController::class, 'scrape'])->name('articles.scrape');
         Route::post('articles/generate-ai', [AdminArticleController::class, 'generateAi'])->name('articles.generate-ai');
         Route::post('articles/publish-drafts', [AdminArticleController::class, 'publishDrafts'])->name('articles.publish-drafts');
+
+        // Media: upload manual & unduh dari URL ke storage lokal (dipakai form artikel)
+        Route::post('media/upload', [\App\Http\Controllers\Admin\MediaController::class, 'upload'])->name('media.upload');
+        Route::post('media/fetch-urls', [\App\Http\Controllers\Admin\MediaController::class, 'fetchUrls'])->name('media.fetch-urls');
     });
 });
 

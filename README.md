@@ -132,6 +132,27 @@ Tersedia di `/sitemap.xml`, dua opsi:
    Sitemap: https://malangkab.com/sitemap.xml
    ```
 
+## Upload & unduh gambar ke storage lokal (bukan cuma paste URL)
+
+Form artikel (create & edit) sekarang punya 3 cara mengisi gambar sampul maupun galeri:
+
+1. **Paste URL manual** (cara lama, tetap ada) — gambar tetap di-hotlink ke server lain.
+2. **Upload file** dari komputer Anda — untuk galeri bisa pilih banyak file sekaligus (upload massal).
+3. **Unduh dari URL** — tempel URL gambar (galeri: banyak URL sekaligus, satu per baris), server yang mengunduh dan menyimpannya lokal di `storage/app/public/uploads`, jadi situs Anda **tidak hotlink** ke server orang lain.
+
+Endpoint-nya: `POST /admin/media/upload` (multipart file) dan `POST /admin/media/fetch-urls` (JSON `{urls: "url1\nurl2"}`), dipanggil lewat JavaScript di form — hasil URL lokalnya otomatis mengisi field "Gambar Sampul" atau ditambahkan ke textarea galeri.
+
+**Wajib dijalankan sekali di server** supaya file yang di-upload/diunduh bisa diakses lewat browser:
+```bash
+php artisan storage:link
+```
+Ini membuat symlink `public/storage` → `storage/app/public`. Tanpa ini, gambar akan ter-upload tapi URL-nya 404.
+
+**Batasan yang saya terapkan** (bisa disesuaikan di `app/Http/Controllers/Admin/MediaController.php`):
+- Maks 8MB per gambar, maks 20 file/URL per request.
+- Hanya tipe gambar (jpg, png, webp, gif) — untuk "unduh dari URL", divalidasi lewat header `Content-Type` respons, bukan cuma ekstensi di URL.
+- Ada peringatan di UI: mengunduh/upload gambar tidak otomatis memberi hak pakai — tetap pastikan Anda berhak memakainya.
+
 ## Fitur Pendidikan (TK/SD/SMP/SMA/SMK) — dimulai dari SMP
 
 Struktur tree 3 tingkat (`PendidikanCategorySeeder`):
