@@ -28,15 +28,7 @@ resources/views/articles/show.blade.php
 ## Langkah instalasi ke proyek Anda
 
 1. **Salin folder `app`, `database`, `resources` di paket ini ke root proyek Laravel Anda** (menimpa/menambah file, bukan mengganti folder yang sudah ada).
-2. **Routing** — buka `routes/web.php`, tambahkan isi dari `routes/web-additions.php`:
-   ```php
-   use App\Http\Controllers\ArticleController;
-
-   Route::get('/', [ArticleController::class, 'home'])->name('home');
-   Route::get('/{category}', [ArticleController::class, 'category'])->name('category.show');
-   Route::get('/{category}/{article}', [ArticleController::class, 'show'])->name('article.show');
-   ```
-   Jika Anda sudah punya route `/` sebelumnya, sesuaikan agar tidak bentrok.
+2. **Routing** — buka `routes/web.php`, ganti seluruh isinya mengikuti urutan di `routes/web.php.example` (di paket ini). **Urutan sangat penting**: grup route `admin` harus di paling atas, dan route catch-all publik (`{category}`, `{category}/{article}`) harus di paling bawah — kalau terbalik, `/admin/login` akan "ditelan" oleh route catch-all publik dan selalu 404. Kalau `routes/web.php` Anda sudah punya route lain di luar modul ini, cukup pastikan pola urutannya sama: **admin dulu, catch-all publik terakhir**.
 3. **DatabaseSeeder** — buka `database/seeders/DatabaseSeeder.php` milik Anda, tambahkan pemanggilan:
    ```php
    $this->call([
@@ -111,7 +103,7 @@ Halaman **Artikel Baru** punya 3 tab di atas form:
 ### Langkah integrasi ke proyek Anda
 
 1. Salin folder `app`, `database`, `resources`, `routes` ke proyek Laravel Anda (menambah, bukan mengganti yang sudah ada).
-2. Tambahkan isi `routes/admin-additions.php` ke `routes/web.php`.
+2. Ganti isi `routes/web.php` mengikuti `routes/web.php.example` — urutan admin-di-atas, catch-all-di-bawah (lihat poin routing di bagian atas README ini).
 3. Daftarkan middleware `admin` di `bootstrap/app.php` (Laravel 11+/13):
    ```php
    ->withMiddleware(function (Illuminate\Foundation\Configuration\Middleware $middleware) {
