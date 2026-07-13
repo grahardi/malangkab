@@ -24,6 +24,8 @@ class TokohArticleSeeder extends Seeder
      */
     public function run(): void
     {
+        $realPhotos = $this->realPhotos();
+
         foreach ($this->data() as $categorySlug => $items) {
             $category = Category::where('slug', $categorySlug)->first();
 
@@ -33,11 +35,16 @@ class TokohArticleSeeder extends Seeder
 
             foreach ($items as $item) {
                 $slug = Str::slug($item['nama']);
+                $real = $realPhotos[$item['nama']] ?? null;
 
                 $body = "<p>{$item['ringkasan']}</p>"
                     .'<p><em>Catatan: profil ini masih berupa garis besar berdasarkan riset sumber publik. '
                     .'Admin perlu memverifikasi ulang dan melengkapi detail (tanggal lahir, riwayat lengkap, '
                     .'prestasi terbaru) sebelum dipublikasikan.</em></p>';
+
+                if ($real) {
+                    $body .= "<p class=\"text-sm text-gray-500\">{$real['image_credit']}</p>";
+                }
 
                 Article::updateOrCreate(
                     ['slug' => $slug],
@@ -46,9 +53,9 @@ class TokohArticleSeeder extends Seeder
                         'title' => $item['nama'],
                         'excerpt' => $item['ringkasan'],
                         'body' => $body,
-                        'cover_image' => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIj4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNjAiIGZpbGw9IiNFRkU5REMiLz4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTA1IiByPSI1NSIgZmlsbD0iI0E4NTMzMyIvPgo8cGF0aCBkPSJNMTAwLDIzMCBDMTAwLDE2NSAxNDAsMTUwIDIwMCwxNTAgQzI2MCwxNTAgMzAwLDE2NSAzMDAsMjMwIFoiIGZpbGw9IiMyRjRBMzQiLz4KPHRleHQgeD0iMjAwIiB5PSIyNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzNCNEE1NCI+VG9rb2ggTWFsYW5nPC90ZXh0Pgo8L3N2Zz4=',
+                        'cover_image' => $real['cover_image'] ?? self::PLACEHOLDER_IMAGE,
                         'gallery' => [],
-                        'meta' => ['sumber' => 'riset_publik'],
+                        'meta' => ['sumber' => 'riset_publik', 'image_source' => $real ? 'wikimedia_commons' : 'placeholder'],
                         'status' => 'draft',
                         'published_at' => null,
                     ]
@@ -56,6 +63,26 @@ class TokohArticleSeeder extends Seeder
             }
         }
     }
+
+    /**
+     * Foto asli terverifikasi lisensinya dari Wikimedia Commons, key = nama persis
+     * seperti di data(). Baru 1 yang berhasil saya verifikasi lisensinya secara
+     * pasti (banyak file di Commons tidak menampilkan info lisensi jelas di hasil
+     * pencarian, dan mengecek satu-satu 46 orang sangat memakan waktu). Tambahkan
+     * entri baru di sini kalau menemukan foto lain yang sudah dipastikan lisensinya
+     * (CC BY / CC BY-SA / public domain) -- jangan tempel foto tanpa cek lisensi.
+     */
+    private function realPhotos(): array
+    {
+        return [
+            'Yuni Shara' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Yuni_shara.jpg?width=800',
+                'image_credit' => 'Foto Yuni Shara — Wikimedia Commons, lisensi CC BY-SA 4.0.',
+            ],
+        ];
+    }
+
+    private const PLACEHOLDER_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIj4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNjAiIGZpbGw9IiNFRkU5REMiLz4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTA1IiByPSI1NSIgZmlsbD0iI0E4NTMzMyIvPgo8cGF0aCBkPSJNMTAwLDIzMCBDMTAwLDE2NSAxNDAsMTUwIDIwMCwxNTAgQzI2MCwxNTAgMzAwLDE2NSAzMDAsMjMwIFoiIGZpbGw9IiMyRjRBMzQiLz4KPHRleHQgeD0iMjAwIiB5PSIyNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzNCNEE1NCI+VG9rb2ggTWFsYW5nPC90ZXh0Pgo8L3N2Zz4=';
 
     private function data(): array
     {

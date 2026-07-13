@@ -99,7 +99,7 @@ Tokoh (root)
 **Sangat penting:**
 - Isi tiap profil masih **garis besar/ringkasan**, bukan biografi lengkap. Detail seperti tanggal lahir presisi, riwayat karier lengkap, dan prestasi terbaru perlu dilengkapi & diverifikasi ulang admin — terutama untuk tokoh yang masih hidup/menjabat (jabatan publik bisa berubah).
 - Semua 46 artikel berstatus **draft**.
-- Foto pakai placeholder ikon siluet generik (bukan foto asli orangnya) — silakan lengkapi dengan foto resmi/berizin kalau tersedia, atau biarkan sebagai placeholder untuk profil yang belum ada foto.
+- Foto pakai placeholder ikon siluet generik (bukan foto asli orangnya) untuk hampir semua profil — **baru 1 yang berhasil saya verifikasi lisensinya secara pasti dari Wikimedia Commons: Yuni Shara (CC BY-SA 4.0)**. Mengecek lisensi satu-per-satu untuk 46 orang ternyata sangat memakan waktu dan banyak file di Commons tidak menampilkan info lisensi jelas di hasil pencarian. Pola penambahannya sama seperti kecamatan/pariwisata: tambahkan entri baru ke `TokohArticleSeeder::realPhotos()` begitu menemukan foto lain yang lisensinya sudah pasti (jangan tempel foto tanpa cek lisensi).
 - Kategori **Tokoh Lainnya** sengaja saya kosongkan karena belum menemukan nama yang bisa saya verifikasi masuk kategori ini secara meyakinkan.
 
 **Menjalankan seeder ini:**
