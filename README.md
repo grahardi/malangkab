@@ -67,6 +67,18 @@ Seeder memakai gambar placeholder dari **Lorem Picsum** (`picsum.photos`, layana
 2. **Dokumentasi resmi Pemkab/Diskominfo Kabupaten Malang** — paling ideal karena biasanya sudah dimiliki hak pakainya oleh instansi terkait.
 3. **Foto sendiri** per kecamatan, diunggah lewat storage Laravel (`php artisan storage:link`) dan diisi ke kolom `cover_image`/`gallery` sebagai path lokal.
 
+## Seeder 100 artikel Pariwisata (Pariwisata100ArticleSeeder)
+
+Mengisi 20 draf artikel di masing-masing 5 sub-kategori Pariwisata (Pantai, Wisata Alam, Wisata Religi & Budaya, Agrowisata & Wisata Buatan, Lainnya) — total 100 artikel.
+
+**Semua artikel ini masuk dengan status `draft`, bukan langsung `published`.** Sebagian nama tempat (mis. Candi Kidal, Masjid Tiban, Waduk Selorejo, Pemandian Wendit) sudah cukup dikenal luas, tapi sebagian lain masih berupa starter/perkiraan yang perlu dicek admin — terutama kecamatan persis, jam operasional, harga tiket, dan detail teknis lainnya. Alur yang disarankan:
+
+1. Jalankan `php artisan db:seed --class=Pariwisata100ArticleSeeder` (atau lewat `php artisan db:seed` penuh).
+2. Buka **Admin → Manajemen Artikel**, filter kategori Pariwisata, lalu tinjau satu per satu.
+3. Lengkapi/koreksi isi, ganti gambar placeholder Picsum dengan foto asli (lihat bagian "Tentang gambar" di atas), baru ubah status ke **Published**.
+
+Gambar masih pakai placeholder Picsum untuk semua 100 artikel ini (belum ada foto asli terverifikasi per lokasi seperti pada seeder kecamatan) — silakan lengkapi manual di admin panel begitu foto resminya tersedia.
+
 ## Kartu kecamatan acak di beranda
 
 Di beranda, bagian "Sekilas Kecamatan" menampilkan **6 kartu thumbnail kecamatan secara acak** (2 kolom × 3 baris), berbeda setiap kali halaman dimuat ulang — diambil lewat `Article::inRandomOrder()->limit(6)` di `ArticleController@home`. Daftar lengkap 33 kecamatan tetap bisa diakses di halaman `/kecamatan`.

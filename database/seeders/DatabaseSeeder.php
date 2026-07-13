@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ProfileArticleSeeder::class,
             KecamatanArticleSeeder::class,
             PariwisataArticleSeeder::class,
+            Pariwisata100ArticleSeeder::class,
         ]);
     }
 }

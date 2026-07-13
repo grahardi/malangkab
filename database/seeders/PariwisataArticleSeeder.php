@@ -65,7 +65,7 @@ class PariwisataArticleSeeder extends Seeder
                 'body' => '<p>Pantai Ngliyep terletak di Desa Kedungsalam, Kecamatan Donomulyo, sekitar 62 km selatan Kota Malang. Sebelum Balekambang dan Sendang Biru populer, Ngliyep sudah lebih dulu menjadi tujuan wisata favorit sejak dekade 1980-an.</p><p>Kawasan ini dikelilingi tebing curam dan hutan lindung, dengan Teluk Putri yang berpasir putih halus di sisi kiri pantai utama. Setiap tanggal 14 bulan Maulud, digelar upacara adat labuhan sebagai tradisi tahunan masyarakat setempat.</p><p class="text-sm text-gray-500">Foto Pantai Ngliyep — Wikimedia Commons, oleh Angga Prastyo10, lisensi CC BY-SA 4.0.</p>',
             ],
             [
-                'category_slug' => 'pariwisata-air-terjun',
+                'category_slug' => 'pariwisata-wisata-alam',
                 'title' => 'Air Terjun Coban Rondo',
                 'excerpt' => 'Air terjun setinggi 84 meter di lereng Gunung Panderman, Kecamatan Pujon, lengkap dengan area berkemah.',
                 'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Coban_Rondo_Waterfall.jpg?width=1200',
@@ -73,7 +73,7 @@ class PariwisataArticleSeeder extends Seeder
                 'body' => '<p>Coban Rondo berada di Desa Pandesari, Kecamatan Pujon, pada ketinggian sekitar 1.135 mdpl dengan udara pegunungan yang sejuk. Air terjun ini memiliki tinggi sekitar 84 meter dan merupakan hilir dari rangkaian air terjun bertingkat Coban Manten dan Coban Dudo.</p><p>Fasilitas di kawasan ini mencakup area berkemah, jalur jogging, kolam pemancingan, serta penginapan — menjadikannya salah satu destinasi wisata alam paling lengkap di wilayah barat Kabupaten Malang.</p><p class="text-sm text-gray-500">Foto Air Terjun Coban Rondo — Wikimedia Commons, lisensi CC BY-SA 2.0.</p>',
             ],
             [
-                'category_slug' => 'pariwisata-gunung-pendakian',
+                'category_slug' => 'pariwisata-wisata-alam',
                 'title' => 'Jalur Bromo-Semeru via Poncokusumo',
                 'excerpt' => 'Salah satu jalur menuju kawasan Taman Nasional Bromo Tengger Semeru, melalui Kecamatan Poncokusumo.',
                 'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/TNBTS_Jemplang_Malang_Jatim.jpg?width=1200',
