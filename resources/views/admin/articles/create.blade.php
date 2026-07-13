@@ -84,7 +84,9 @@ document.getElementById('btnScrape').addEventListener('click', async function ()
         document.querySelector('[name=title]').value = d.title || '';
         document.querySelector('[name=excerpt]').value = d.excerpt || '';
         document.querySelector('[name=cover_image]').value = d.image || '';
-        document.querySelector('[name=body]').value = d.raw_paragraphs.map(p => `<p>${p}</p>`).join('\n');
+        const scrapedBody = d.raw_paragraphs.map(p => `<p>${p}</p>`).join('\n');
+        if (window.tinymce && tinymce.get('bodyEditor')) { tinymce.get('bodyEditor').setContent(scrapedBody); }
+        else { document.querySelector('[name=body]').value = scrapedBody; }
         const notice = document.getElementById('scrapeNotice');
         notice.style.display = 'block';
         notice.textContent = d.notice;
@@ -113,7 +115,8 @@ document.getElementById('btnGenerateAi').addEventListener('click', async functio
         const d = json.data;
         document.querySelector('[name=title]').value = d.title || '';
         document.querySelector('[name=excerpt]').value = d.excerpt || '';
-        document.querySelector('[name=body]').value = d.body || '';
+        if (window.tinymce && tinymce.get('bodyEditor')) { tinymce.get('bodyEditor').setContent(d.body || ''); }
+        else { document.querySelector('[name=body]').value = d.body || ''; }
         const notice = document.getElementById('aiNotice');
         notice.style.display = 'block';
         notice.textContent = d.notice;

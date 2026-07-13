@@ -147,6 +147,12 @@ Ini membuat symlink `public/storage` → `storage/app/public`. Tanpa ini, gambar
 - Hanya tipe gambar (jpg, png, webp, gif) — untuk "unduh dari URL", divalidasi lewat header `Content-Type` respons, bukan cuma ekstensi di URL.
 - Ada peringatan di UI: mengunduh/upload gambar tidak otomatis memberi hak pakai — tetap pastikan Anda berhak memakainya.
 
+## Editor konten: TinyMCE (bukan textarea polos)
+
+Field "Isi Artikel" sekarang pakai **TinyMCE** (rich text editor), dimuat lewat CDN jsDelivr (`tinymce@7`, self-hosted, **tanpa perlu API key/signup** — beda dari CDN resmi `cdn.tiny.cloud` yang mewajibkan API key). Admin cukup ketik & Enter seperti di Word, paragraf otomatis jadi tag `<p>` yang benar — tidak perlu lagi ngetik HTML manual.
+
+**Kenapa artikel lama (yang dibuat sebelum ini) bisa tampil menyambung jadi satu paragraf:** kontennya tersimpan sebagai teks polos dengan Enter biasa (`\n`), padahal HTML mengabaikan `\n` — mesti pakai tag `<p>` supaya jadi paragraf. Untuk artikel lama seperti ini, buka halaman edit-nya lalu klik tombol **"Rapikan jadi Paragraf"** di atas kotak editor — otomatis memecah teks jadi paragraf `<p>` berdasarkan baris kosong, tanpa perlu ketik ulang manual. Setelah itu tinggal disimpan.
+
 ## Fitur Pendidikan (TK/SD/SMP/SMA/SMK) — dimulai dari SMP
 
 Struktur tree 3 tingkat (`PendidikanCategorySeeder`):

@@ -24,8 +24,17 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Isi Artikel (HTML diperbolehkan, mis. &lt;p&gt;...&lt;/p&gt;)</label>
-    <textarea name="body" class="form-control" rows="10" required>{{ old('body', $article->body ?? '') }}</textarea>
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <label class="form-label mb-0">Isi Artikel</label>
+        <button type="button" id="btnAutoParagraph" class="btn btn-sm btn-outline-secondary">
+            Rapikan jadi Paragraf
+        </button>
+    </div>
+    <textarea name="body" id="bodyEditor" class="form-control" rows="10" required>{{ old('body', $article->body ?? '') }}</textarea>
+    <div class="form-text">
+        Kalau isi artikel lama tampil menyambung jadi satu (dari sebelum pakai editor ini), klik
+        "Rapikan jadi Paragraf" — teks akan otomatis dipecah per baris kosong jadi paragraf HTML yang benar.
+    </div>
 </div>
 
 <div class="row">
@@ -76,6 +85,22 @@
     <div class="small text-muted mt-1" id="galleryStatus"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#bodyEditor',
+        height: 420,
+        menubar: false,
+        plugins: 'lists link autolink code wordcount',
+        toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link | code',
+        branding: false,
+        promotion: false,
+        content_style: 'body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; font-size: 15px; }',
+        // Konten lama yang cuma pakai Enter tanpa tag <p> (belum ter-wrap dengan benar)
+        // akan otomatis dibungkus <p> oleh TinyMCE begitu dibuka & disimpan ulang di sini.
+    });
+</script>
+
 <script>
 (function () {
     const csrf = window.csrfToken;
@@ -99,6 +124,21 @@
         });
         return res.json();
     }
+
+    document.getElementById('btnAutoParagraph').addEventListener('click', function () {
+        const editor = window.tinymce && tinymce.get('bodyEditor');
+        const current = editor ? editor.getContent({ format: 'text' }) : document.getElementById('bodyEditor').value;
+
+        const paragraphs = current
+            .split(/\n{1,}/)
+            .map(p => p.trim())
+            .filter(Boolean)
+            .map(p => `<p>${p}</p>`)
+            .join('\n');
+
+        if (editor) { editor.setContent(paragraphs); }
+        else { document.getElementById('bodyEditor').value = paragraphs; }
+    });
 
     const coverImageInput = document.getElementById('coverImageInput');
     const coverPreview = document.getElementById('coverPreview');
