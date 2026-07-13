@@ -79,6 +79,79 @@ Seeder memakai gambar placeholder dari **Lorem Picsum** (`picsum.photos`, layana
 
 Di beranda, bagian "Sekilas Kecamatan" menampilkan **6 kartu thumbnail kecamatan secara acak** (2 kolom × 3 baris), berbeda setiap kali halaman dimuat ulang — diambil lewat `Article::inRandomOrder()->limit(6)` di `ArticleController@home`. Daftar lengkap 33 kecamatan tetap bisa diakses di halaman `/kecamatan`.
 
+## Admin Panel (AdminLTE 4)
+
+Paket ini menambahkan panel admin di `/admin`, dibangun dengan **AdminLTE 4** (Bootstrap 5.3, tanpa jQuery) via CDN — tidak perlu install npm/composer package tambahan untuk tampilannya.
+
+### Struktur kategori bertingkat (tree, seperti WordPress/Joomla)
+
+Tabel `categories` sekarang punya kolom `parent_id`. Contoh struktur yang sudah di-seed:
+
+```
+Profile              (root, flat — tidak ada anak)
+Kecamatan            (root, flat — tidak ada anak)
+Pariwisata           (root)
+  ├─ Pantai
+  ├─ Air Terjun
+  ├─ Gunung & Pendakian
+  ├─ Wisata Religi & Budaya
+  └─ Agrowisata & Wisata Buatan
+```
+
+Halaman **Manajemen Kategori** di admin menampilkan struktur ini sebagai tree dengan tombol tambah sub-kategori di tiap baris, persis pola WordPress/Joomla.
+
+### 3 cara menambah artikel
+
+Halaman **Artikel Baru** punya 3 tab di atas form:
+
+1. **Manual** — isi form langsung.
+2. **Scrape URL** — masukkan URL sumber, sistem mengambil judul/gambar/cuplikan teks via `ArticleScraperService` dan mengisi form secara otomatis. **Hasilnya wajib ditulis ulang dengan kalimat sendiri sebelum dipublikasikan** — ini konten mentah orang lain, bukan hasil akhir siap terbit (soal hak cipta).
+3. **Generate AI** — masukkan topik, sistem memanggil Claude API lewat `AiArticleGenerator` untuk membuat draf judul/ringkasan/isi. Hasil AI **selalu masuk sebagai status Draft** dan wajib diverifikasi faktanya sebelum dipublikasikan (nama tempat, angka, sejarah, dll — model bisa saja salah).
+
+### Langkah integrasi ke proyek Anda
+
+1. Salin folder `app`, `database`, `resources`, `routes` ke proyek Laravel Anda (menambah, bukan mengganti yang sudah ada).
+2. Tambahkan isi `routes/admin-additions.php` ke `routes/web.php`.
+3. Daftarkan middleware `admin` di `bootstrap/app.php` (Laravel 11+/13):
+   ```php
+   ->withMiddleware(function (Illuminate\Foundation\Configuration\Middleware $middleware) {
+       $middleware->alias([
+           'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+       ]);
+   })
+   ```
+4. Pastikan proyek Anda sudah punya sistem auth Laravel standar (tabel `users`, model `App\Models\User`). Jika belum ada login sama sekali, install Laravel Breeze (`composer require laravel/breeze` lalu `php artisan breeze:install blade`) agar tabel & model User siap — panel admin di sini memakai `Auth::attempt()` bawaan Laravel, bukan Breeze secara langsung, jadi Breeze opsional hanya untuk memastikan skema `users` ada.
+5. Migrasi & seed:
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+6. Login pertama kali di `/admin/login` dengan:
+   - Email: `admin@malangkab.com`
+   - Password: `ubah-password-ini`
+
+   **Segera ganti password ini** setelah login (lewat `php artisan tinker` → `User::where('email','admin@malangkab.com')->first()->update(['password'=>Hash::make('password-baru-anda')])`), atau buat user admin sendiri lalu hapus/nonaktifkan akun default ini.
+
+7. Untuk fitur **Generate AI**, tambahkan ke `.env`:
+   ```
+   ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
+   ANTHROPIC_MODEL=claude-sonnet-5
+   ```
+   dan ke `config/services.php`:
+   ```php
+   'anthropic' => [
+       'key' => env('ANTHROPIC_API_KEY'),
+       'model' => env('ANTHROPIC_MODEL', 'claude-sonnet-5'),
+   ],
+   ```
+   Cek nama model API terbaru di [docs.claude.com](https://docs.claude.com) bila `claude-sonnet-5` sudah berganti.
+
+### Catatan keamanan
+
+- Middleware `admin` menolak akses (403) bagi user yang login tapi bukan admin (`is_admin = false`).
+- Fitur scrape URL memakai `Http::get()` bawaan Laravel dengan timeout 15 detik — hanya untuk membaca halaman publik, bukan untuk situs yang butuh login.
+- Jangan expose `ANTHROPIC_API_KEY` ke sisi klien (JS) — semua pemanggilan Claude API terjadi di server lewat `AiArticleGenerator`.
+
 ## Tentang konten
 
 Isi 10 artikel "Profile" dan 33 artikel "Kecamatan" adalah **draf awal** (ringkasan umum, gaya ensiklopedis) yang aman dipakai sebagai starter content. Untuk data resmi (jumlah desa, luas wilayah, jumlah penduduk per kecamatan, potensi unggulan terbaru), sebaiknya dilengkapi dari data BPS Kabupaten Malang / Diskominfo agar akurat dan bisa diklaim sebagai data resmi pemerintah daerah.
