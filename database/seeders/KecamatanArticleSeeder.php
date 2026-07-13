@@ -83,6 +83,34 @@ class KecamatanArticleSeeder extends Seeder
                 ],
                 'image_credit' => 'Foto Pulau Sempu, Sendang Biru — Wikimedia Commons, oleh Fortraihan, lisensi CC BY-SA 4.0.',
             ],
+            'Poncokusumo' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/TNBTS_Jemplang_Malang_Jatim.jpg?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/TNBTS_Jemplang_Malang_Jatim.jpg?width=900',
+                ],
+                'image_credit' => 'Foto kawasan Taman Nasional Bromo Tengger Semeru, Jemplang, Poncokusumo — Wikimedia Commons, oleh Indiekreatif, lisensi CC BY-SA 4.0.',
+            ],
+            'Donomulyo' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Pantai_Ngliyep_(Ngliyep_Beach_Donomulyo).jpg?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Pantai_Ngliyep_(Ngliyep_Beach_Donomulyo).jpg?width=900',
+                ],
+                'image_credit' => 'Foto Pantai Ngliyep, Donomulyo — Wikimedia Commons, oleh Angga Prastyo10, lisensi CC BY-SA 4.0.',
+            ],
+            'Tumpang' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Jago_C.JPG?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Jago_C.JPG?width=900',
+                ],
+                'image_credit' => 'Foto Candi Jago, Tumpang — Wikimedia Commons, lisensi CC BY-SA 3.0.',
+            ],
+            'Pujon' => [
+                'cover_image' => 'https://commons.wikimedia.org/wiki/Special:FilePath/Coban_Rondo_Waterfall.jpg?width=1200',
+                'gallery' => [
+                    'https://commons.wikimedia.org/wiki/Special:FilePath/Coban_Rondo_Waterfall.jpg?width=900',
+                ],
+                'image_credit' => 'Foto Air Terjun Coban Rondo, Pujon — Wikimedia Commons, lisensi CC BY-SA 2.0.',
+            ],
         ];
     }
 

@@ -58,7 +58,16 @@ Seeder memakai gambar placeholder dari **Lorem Picsum** (`picsum.photos`, layana
 
 **Kenapa tidak langsung ambil dari hasil pencarian Google Images?** Foto yang muncul di pencarian pada umumnya berhak cipta milik fotografer/situs asal — menaruhnya di situs publik tanpa izin berisiko pelanggaran hak cipta. Beberapa alternatif yang aman:
 
-1. **Wikimedia Commons** — banyak foto landmark (candi, pantai, masjid, dsb.) berlisensi Creative Commons (bebas pakai dengan syarat mencantumkan atribusi). Contoh sudah diterapkan di `KecamatanArticleSeeder::realPhotos()` untuk Kecamatan Singosari (foto Candi Singosari). Untuk kecamatan lain: cari file di commons.wikimedia.org, lalu pakai URL stabil:
+1. **Wikimedia Commons** — banyak foto landmark (candi, pantai, masjid, dsb.) berlisensi Creative Commons (bebas pakai dengan syarat mencantumkan atribusi). Sejauh ini **7 dari 33 kecamatan** sudah pakai foto asli terverifikasi lisensinya, lewat `KecamatanArticleSeeder::realPhotos()`:
+   - Singosari → Candi Singosari (CC BY-SA 3.0)
+   - Bantur → Pura Amerta Jati, Pantai Balekambang (CC BY-SA 3.0)
+   - Sumbermanjing Wetan → Pulau Sempu (CC BY-SA 4.0)
+   - Poncokusumo → kawasan Taman Nasional Bromo Tengger Semeru, Jemplang (CC BY-SA 4.0)
+   - Donomulyo → Pantai Ngliyep (CC BY-SA 4.0)
+   - Tumpang → Candi Jago (CC BY-SA 3.0)
+   - Pujon → Air Terjun Coban Rondo (CC BY-SA 2.0)
+
+   Untuk kecamatan lain: cari file di commons.wikimedia.org, lalu pakai URL stabil:
    ```
    https://commons.wikimedia.org/wiki/Special:FilePath/Nama_File.jpg
    ```
