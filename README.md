@@ -79,6 +79,37 @@ Mengisi 20 draf artikel di masing-masing 5 sub-kategori Pariwisata (Pantai, Wisa
 
 Gambar masih pakai placeholder Picsum untuk semua 100 artikel ini (belum ada foto asli terverifikasi per lokasi seperti pada seeder kecamatan) — silakan lengkapi manual di admin panel begitu foto resminya tersedia.
 
+## Fitur Tokoh (Politik, Pendidikan, Masyarakat, Budayawan, Artis, Atlet, Lainnya)
+
+Struktur (`TokohCategorySeeder`):
+
+```
+Tokoh (root)
+  ├─ Tokoh Politik        (8 profil)
+  ├─ Tokoh Pendidikan     (1 profil)
+  ├─ Tokoh Masyarakat     (5 profil)
+  ├─ Budayawan            (8 profil)
+  ├─ Artis Malang         (15 profil)
+  ├─ Atlet                (9 profil)
+  └─ Tokoh Lainnya        (0 profil — belum ada nama yang bisa saya verifikasi)
+```
+
+**Total 46 profil**, bukan 80 seperti target awal permintaan. Saya sengaja tidak menambah nama karangan untuk mengejar angka — untuk orang sungguhan (apalagi tokoh publik nyata), fakta yang salah/dikarang bisa menyesatkan atau mencemarkan nama baik. Semua 46 nama di sini adalah tokoh nyata yang saya temukan dan verifikasi lewat riset (Wikipedia, media berita, situs resmi Pemkab Malang, jurnal akademik) — beberapa (H.M. Sanusi, Lathifah Shohib, Hamid Rusdi, Abdul Manan Wijaya, Mbah Rasimun, Mbah Karimoen, Mbah Misdi, Dendi Santoso, Syaiful Indra Cahya, Tarzan/Toto Mulyadi) terkonfirmasi langsung terkait kecamatan tertentu di **Kabupaten** Malang; sebagian besar lainnya tercatat sebagai tokoh "asal Malang" secara umum (bisa jadi Kota Malang, mengingat banyak tokoh terkenal memang dari sana).
+
+**Sangat penting:**
+- Isi tiap profil masih **garis besar/ringkasan**, bukan biografi lengkap. Detail seperti tanggal lahir presisi, riwayat karier lengkap, dan prestasi terbaru perlu dilengkapi & diverifikasi ulang admin — terutama untuk tokoh yang masih hidup/menjabat (jabatan publik bisa berubah).
+- Semua 46 artikel berstatus **draft**.
+- Foto pakai placeholder ikon siluet generik (bukan foto asli orangnya) — silakan lengkapi dengan foto resmi/berizin kalau tersedia, atau biarkan sebagai placeholder untuk profil yang belum ada foto.
+- Kategori **Tokoh Lainnya** sengaja saya kosongkan karena belum menemukan nama yang bisa saya verifikasi masuk kategori ini secara meyakinkan.
+
+**Menjalankan seeder ini:**
+```bash
+php artisan db:seed --class=TokohCategorySeeder
+php artisan db:seed --class=TokohArticleSeeder
+```
+
+Kalau Anda ingin saya lanjutkan riset untuk melengkapi Tokoh Pendidikan (masih sangat tipis) atau Tokoh Lainnya, atau menambah lebih banyak nama di kategori lain, saya bisa lanjutkan pencarian — tapi saya tidak akan mengarang nama untuk sekadar mencapai target 80.
+
 ## Fitur Pendidikan (TK/SD/SMP/SMA/SMK) — dimulai dari SMP
 
 Struktur tree 3 tingkat (`PendidikanCategorySeeder`):
