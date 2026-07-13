@@ -79,6 +79,34 @@ Mengisi 20 draf artikel di masing-masing 5 sub-kategori Pariwisata (Pantai, Wisa
 
 Gambar masih pakai placeholder Picsum untuk semua 100 artikel ini (belum ada foto asli terverifikasi per lokasi seperti pada seeder kecamatan) — silakan lengkapi manual di admin panel begitu foto resminya tersedia.
 
+## Fitur Pendidikan (TK/SD/SMP/SMA/SMK) — dimulai dari SMP
+
+Struktur tree 3 tingkat (`PendidikanCategorySeeder`):
+
+```
+Pendidikan (root)
+  ├─ TK, SD, SMA, SMK   (kategori kosong, menyusul)
+  └─ SMP
+       ├─ SMP Negeri 1 Ampelgading
+       ├─ SMP Negeri 1 Bantur
+       └─ ... (1 sekolah per 33 kecamatan)
+```
+
+Tiap sekolah adalah **kategori tersendiri** (bukan artikel tunggal), dengan 4 artikel di dalamnya (`SmpNegeri1ArticleSeeder`): **Profil, Statistik, Prestasi, Kontak Person**. Ini persis meniru struktur "sub-menu per sekolah" yang diminta — mengunjungi `/smp-negeri-1-bantur` menampilkan ke-4 artikel itu sebagai grid, sama seperti kategori lain.
+
+**Sangat penting — ini semua TEMPLATE, bukan data asli:**
+- Nama sekolah ("SMP Negeri 1 [Kecamatan]") memakai pola penamaan standar yang lazim di Indonesia, tapi **belum dikonfirmasi satu-satu** — sebagian kecamatan mungkin nama SMP negeri pertamanya berbeda dari pola ini.
+- Alamat lengkap, jumlah siswa/guru, prestasi, dan nomor kontak **sengaja dikosongkan (diisi tanda `-`)**, bukan dikarang. Menyajikan angka palsu sebagai fakta soal sekolah negeri sungguhan berisiko menyesatkan.
+- Galeri foto **tidak diisi** — sama seperti kasus foto wisata, mengambil foto sekolah dari Google Images berisiko hak cipta. Idealnya foto didapat langsung dari pihak sekolah.
+- Semua 132 artikel (33 sekolah × 4 jenis) berstatus **draft**.
+
+**Alur kerja yang disarankan:**
+1. `php artisan db:seed --class=PendidikanCategorySeeder`
+2. `php artisan db:seed --class=SmpNegeri1ArticleSeeder`
+3. Konfirmasi dulu nama resmi tiap SMP Negeri 1 per kecamatan (kalau ternyata beda, edit nama kategorinya di **Admin → Manajemen Kategori**).
+4. Lengkapi Statistik dari [dapo.kemdikbud.go.id](https://dapo.kemdikbud.go.id) (cari berdasarkan NPSN), lengkapi Profil/Kontak dari konfirmasi langsung ke sekolah, tambahkan galeri kalau sekolah menyediakan foto resmi.
+5. Publish satu-satu lewat **Admin → Manajemen Artikel**, atau pakai tombol "Publish Semua Draft" per kategori kalau sudah yakin datanya benar.
+
 ## Kartu kecamatan acak di beranda
 
 Di beranda, bagian "Sekilas Kecamatan" menampilkan **6 kartu thumbnail kecamatan secara acak** (2 kolom × 3 baris), berbeda setiap kali halaman dimuat ulang — diambil lewat `Article::inRandomOrder()->limit(6)` di `ArticleController@home`. Daftar lengkap 33 kecamatan tetap bisa diakses di halaman `/kecamatan`.

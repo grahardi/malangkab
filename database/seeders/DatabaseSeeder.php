@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             CategorySeeder::class,
             PariwisataCategorySeeder::class,
+            PendidikanCategorySeeder::class,
             ProfileArticleSeeder::class,
             KecamatanArticleSeeder::class,
             PariwisataArticleSeeder::class,
             Pariwisata100ArticleSeeder::class,
+            SmpNegeri1ArticleSeeder::class,
         ]);
     }
 }

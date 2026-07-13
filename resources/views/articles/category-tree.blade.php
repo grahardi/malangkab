@@ -20,13 +20,21 @@
                     <div>
                         <span class="text-2xl">{{ $child->icon }}</span>
                         <span class="font-display text-xl font-bold ml-1">{{ $child->name }}</span>
-                        <span class="text-sm text-gray-500 ml-2">{{ $child->publishedArticles()->count() }} artikel</span>
+                        @if($child->children()->exists())
+                            <span class="text-sm text-gray-500 ml-2">{{ $child->children()->count() }} sekolah/entitas</span>
+                        @else
+                            <span class="text-sm text-gray-500 ml-2">{{ $child->publishedArticles()->count() }} artikel</span>
+                        @endif
                     </div>
                     <a href="{{ route('category.show', $child->slug) }}" class="text-liat text-sm font-semibold hover:underline whitespace-nowrap">Lihat semua →</a>
                 </div>
 
                 @if($child->sampleArticles->isEmpty())
-                    <p class="text-sm text-gray-400 italic">Belum ada artikel di sub-kategori ini.</p>
+                    @if($child->children()->exists())
+                        <p class="text-sm text-gray-500">Berisi {{ $child->children()->count() }} sub-kategori — klik "Lihat semua" untuk menjelajah.</p>
+                    @else
+                        <p class="text-sm text-gray-400 italic">Belum ada artikel di sub-kategori ini.</p>
+                    @endif
                 @else
                     <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
                         @foreach($child->sampleArticles as $article)
