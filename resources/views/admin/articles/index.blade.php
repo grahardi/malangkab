@@ -64,6 +64,6 @@
             </tbody>
         </table>
     </div>
-    <div class="card-footer">{{ $articles->links('pagination::bootstrap-five') }}</div>
+    <div class="card-footer">{{ $articles->links('admin.partials.pagination') }}</div>
 </div>
 @endsection
