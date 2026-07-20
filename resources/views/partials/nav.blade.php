@@ -11,6 +11,7 @@
             <a href="{{ route('category.show', 'pariwisata') }}" class="hover:text-emas transition">Pariwisata</a>
             <a href="{{ route('category.show', 'pendidikan') }}" class="hover:text-emas transition">Pendidikan</a>
             <a href="{{ route('category.show', 'tokoh') }}" class="hover:text-emas transition">Tokoh</a>
+            <a href="{{ route('category.show', 'berita') }}" class="hover:text-emas transition">Berita</a>
         </nav>
         <a href="{{ route('category.show', 'pariwisata') }}" class="hidden md:inline-block bg-emas text-ijotebu2 text-sm font-semibold px-4 py-2 rounded-full hover:brightness-110 transition">
             Jelajahi Wisata

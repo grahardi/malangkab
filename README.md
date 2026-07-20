@@ -79,6 +79,23 @@ Mengisi 20 draf artikel di masing-masing 5 sub-kategori Pariwisata (Pantai, Wisa
 
 Gambar masih pakai placeholder Picsum untuk semua 100 artikel ini (belum ada foto asli terverifikasi per lokasi seperti pada seeder kecamatan) — silakan lengkapi manual di admin panel begitu foto resminya tersedia.
 
+## Fitur Berita (kategori baru, tidak menyentuh data lain)
+
+Kategori **Berita** (flat, tanpa sub-kategori — seperti Profile/Kecamatan) berisi **21 ringkasan berita nyata** seputar Kabupaten Malang & Malang Raya, mencakup topik pemerintahan, infrastruktur, pendidikan, UMKM/ekonomi, olahraga (Arema FC), cuaca/BMKG, dan kebencanaan (BPBD).
+
+**Kenapa 21, bukan 50 seperti permintaan awal:** berita adalah konten berhak cipta milik media penerbitnya — saya tidak bisa menyalin/reproduksi teks asli, apalagi versi panjang. Yang saya buat adalah **ringkasan beberapa paragraf dengan kalimat sendiri** (parafrase), menyebut sumber medianya sebagai atribusi (bukan tautan langsung ke artikel asli). Mengumpulkan berita nyata yang bisa diringkas aman secara hak cipta butuh riset satu-per-satu; 21 ini semua terverifikasi via pencarian, tidak ada yang dikarang untuk mengejar angka 50.
+
+**Sangat penting:**
+- Semua 21 artikel berstatus **draft**. Berita cepat kadaluarsa/berubah (status program, hasil akhir suatu kegiatan, dll) — admin **wajib** membaca ulang dan memverifikasi sebelum publish, terutama untuk berita bulan-bulan terakhir yang mungkin sudah ada perkembangan baru.
+- Ini **cuma menambah** kategori & artikel baru — tidak mengubah/menghapus data kategori atau artikel lain yang sudah ada (pola `updateOrCreate` yang sama seperti seeder-seeder sebelumnya).
+- Gambar pakai placeholder generik (bukan foto asli dari sumber berita) — sama alasannya seperti kasus tokoh/wisata: hotlink/scrape gambar dari situs berita orang lain berisiko hak cipta.
+
+**Menjalankan seeder ini:**
+```bash
+php artisan db:seed --class=BeritaCategorySeeder
+php artisan db:seed --class=BeritaArticleSeeder
+```
+
 ## Fitur Tokoh (Politik, Pendidikan, Masyarakat, Budayawan, Artis, Atlet, Lainnya)
 
 Struktur (`TokohCategorySeeder`):

@@ -18,12 +18,14 @@ class DatabaseSeeder extends Seeder
             PariwisataCategorySeeder::class,
             PendidikanCategorySeeder::class,
             TokohCategorySeeder::class,
+            BeritaCategorySeeder::class,
             ProfileArticleSeeder::class,
             KecamatanArticleSeeder::class,
             PariwisataArticleSeeder::class,
             Pariwisata100ArticleSeeder::class,
             SmpNegeri1ArticleSeeder::class,
             TokohArticleSeeder::class,
+            BeritaArticleSeeder::class,
         ]);
     }
 }
